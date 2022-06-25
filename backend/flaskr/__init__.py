@@ -236,10 +236,12 @@ def create_app(test_config=None):
             prev_question = body.get("previous_questions", None)
             category = body.get("quiz_category", None)
 
-            if prev_question and category is None:
-                abort(404)
+            # if prev_question or category is None:
+            #     abort(404)
+            # if not ('quiz_category' in body and 'previous_questions' in body):
+            #     abort(422)
 
-            if prev_question is None:
+            if not prev_question:
                 if category is None:
                     questions = Question.query.all()
                 else:
