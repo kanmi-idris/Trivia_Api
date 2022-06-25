@@ -239,14 +239,14 @@ def create_app(test_config=None):
             if prev_question and category is None:
                 abort(404)
 
-            if not prev_question:
-                if not category:
+            if prev_question is None:
+                if category is None:
                     questions = Question.query.all()
                 else:
                     questions = Question.query.filter(
                         Question.category == Category.id, Question.category == category["id"]).all()
             else:
-                if not category:
+                if category is None:
                     questions = Question.query.filter(
                         Question.id.notin_(prev_question)).all()
                 else:

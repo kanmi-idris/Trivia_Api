@@ -197,29 +197,31 @@ class TriviaTestCase(unittest.TestCase):
     # Tests to GET questions to play the quiz.
     # ----------------------------------------------------------------------------#
 
-    # def test_get_questions_to_play_quiz(self):
-    #     new_quiz = {
-    #         "previous_questions": [6, 7],
-    #         "quiz_category": {
-    #             "type": "foods",
-    #             "id": 5
-    #         }
-    #     }
+    def test_get_questions_to_play_quiz(self):
+        new_quiz = {
+            "previous_questions": [6, 7],
+            "quiz_category": {
+                "type": "Science",
+                "id": 1
+            }
+        }
 
-    #     res = self.client().post("/quizzes", json=new_quiz)
-    #     data = json.loads(res.data)
+        res = self.client().post("/quizzes", json=new_quiz)
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data["success"], True)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        self.assertTrue(data["question"])
 
-    # def test_error_400_questions_to_play_quiz(self):
-    #     # quiz has no parameter
-    #     res = self.client().post("/quizzes")
-    #     data = json.loads(res.data)
+    def test_error_404_questions_to_play_quiz(self):
+        # quiz has no parameter
+        res = self.client().post("/quizzes")
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 400)
-    #     self.assertEqual(data["success"], False)
-    #     self.assertEqual(data["message"], "Bad request, no parameter passed")
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(
+            data["message"], "Requested resource could not be found")
 
 
 # Make the tests conveniently executable
